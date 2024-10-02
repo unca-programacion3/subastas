@@ -75,14 +75,14 @@ AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-os.environ['PGSERVICEFILE'] = os.path.join(os.environ['APPDATA'], 'postgresql', 'pg_service.conf')
+os.environ['PGSERVICEFILE'] = os.path.join(os.environ['APPDATA'], 'postgresql', '.pg_service.conf')
 
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
         "OPTIONS": {
             "service": "servicio_postgres",
-            "passfile": os.path.join(os.environ['APPDATA'], 'postgresql', 'pgpass.conf')
+            "passfile": os.path.join(os.environ['APPDATA'], 'postgresql', '.pgpass.conf')
         }
     }
 }
