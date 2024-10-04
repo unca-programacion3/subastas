@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+{% block titulo %}Detalle de Anuncio{% endblock %}
+{% block contenido_principal %}
+
+    <header id="home" class="d-flex justify-content-center">
+        <h1>Detalle de Anuncio de Subasta</h1>
+    </header>
+    {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'success' %}  <div class="message">{{ message }}</div>{% endif %}
+      {% endfor %}
+    {% endif %}
+    <section class="d-flex justify-content-center">
+        <div class="card w-50 mb-3 text-bg-light">
+            <img src="{{ anuncio.imagen.url }}" class="card-img-top">
+            <div class="card-body">
+                <h4 class="card-title d-inline">{{ anuncio.titulo }}</h4>
+                <p class="card-text"><strong>Descripcion: </strong>{{ anuncio.descripcion }}</p>
+                <p class="card-text"><strong>Categorías: </strong>
+                    {% for categoria in anuncio.categorias.all %}
+                        *{{ categoria.nombre }}
+                    {% empty %}
+                        El Artículo no se asignó a ninunga Categoria.
+                    {% endfor %}
+                </p>
+                <p class="card-text"><strong>Fecha de inicio: </strong>{{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT" }}</p>
+                <p class="card-text"><strong>Fecha de cierre: </strong>{{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT"|default_if_none:"" }}</p>
+                <p class="card-text"><strong>Precio Inicial: </strong>{{ anuncio.precio_inicial }}</p>
+                <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,11 @@
+.errorlist {
+    background-color: #ffb3b3;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}
+
+.message {
+    background-color: #ccf5ff;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}

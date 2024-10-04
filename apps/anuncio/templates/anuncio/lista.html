@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+{% block titulo %}Lista de Anuncios{% endblock %}
+{% block contenido_principal %}
+    <header id="home">
+        <h1>Listado de Anuncios de Subastas</h1>
+        <p>Aquí encontrará los mejores artículos en subasta.</p>
+    </header>
+    <section id="articulos" class="mt-4">
+        <div class="row row-cols-1 row-cols-md-3 mb-3">
+            {% for anuncio in anuncios %}
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <img src="{{ anuncio.imagen.url }}" class="card-img-top">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ anuncio.titulo }}</h2>
+                            <p class="card-text">
+                                Categorías:
+                                {% for categoria in anuncio.categorias.all %}
+                                    *{{ categoria  }}
+                                {% empty %}
+                                    *No existen categorias asociadas al artículo.
+                                {% endfor %}
+                            </p>
+                            <p class="card-text">{{ anuncio.precio_inicial}}</p>
+                            <p class="card-text">Fecha de Inicio: {{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT" }}</p>
+                            <a href="{% url 'anuncio:detalle_anuncio' anuncio.id %}" class="btn btn-primary">
+                                Ver detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
