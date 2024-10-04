@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from apps.anuncio.forms import AnuncioForm
+from apps.anuncio.forms import AnuncioForm, AnuncioModificaForm
 from apps.anuncio.models import Anuncio
 
 
@@ -32,3 +32,17 @@ def crear_anuncio(request):
         anuncio_form = AnuncioForm()
 
     return render(request, 'anuncio/anuncio_form.html', {'form': anuncio_form})
+
+
+def editar_anuncio(request, pk):
+    anuncio = get_object_or_404(Anuncio, pk=pk)
+    if request.method == 'POST':
+        form_anuncio = AnuncioModificaForm(request.POST, request.FILES, instance=anuncio)
+        if form_anuncio.is_valid():
+            form_anuncio.save(commit=True)
+            messages.success(request, 'Se ha actualizado correctamente el Anuncio')
+            return redirect(reverse('anuncio:detalle_anuncio', args=[anuncio.id]))
+    else:
+        form_anuncio = AnuncioModificaForm(instance=anuncio)
+
+    return render(request, 'anuncio/anuncio_form.html', {'form': form_anuncio})

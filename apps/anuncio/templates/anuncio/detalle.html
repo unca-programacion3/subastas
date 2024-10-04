@@ -28,6 +28,14 @@
                 <p class="card-text"><strong>Precio Inicial: </strong>{{ anuncio.precio_inicial }}</p>
                 <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>
             </div>
+             <hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="id_anuncio" value="{{ anuncio.id }}">
+                <a class="btn btn-primary" href="{% url 'anuncio:editar_anuncio' anuncio.id %}">Editar</a>
+                <input type="submit" value="Eliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar el Anuncio?');">
+              </form>
         </div>
+
     </section>
 {% endblock %}

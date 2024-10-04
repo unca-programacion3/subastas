@@ -29,3 +29,22 @@ class AnuncioForm(forms.ModelForm):
         if fecha_inicio < timezone.now():
             raise ValidationError('La Fecha de Inicio de la Subasta debe ser igual o posterior a la Fecha Actual')
         return fecha_inicio
+
+
+class AnuncioModificaForm(forms.ModelForm):
+    class Meta:
+        model = Anuncio
+        fields = ('titulo', 'descripcion', 'imagen', 'fecha_inicio', 'categorias')
+
+        widgets = {
+            'imagen': forms.ClearableFileInput(),
+            'fecha_inicio': DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            if not isinstance(field.widget, forms.CheckboxInput):
+                field.widget.attrs['class'] = 'form-control'
+            else:
+                field.widget.attrs['class'] = 'form-check-input'
