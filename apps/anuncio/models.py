@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Categoria(models.Model):
@@ -14,7 +15,7 @@ class Anuncio(models.Model):
     precio_inicial = models.DecimalField(decimal_places=2, max_digits=10)
     imagen = models.FileField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
-    fecha_inicio = models.DateTimeField()
+    fecha_inicio = models.DateTimeField(default=timezone.now)
     fecha_fin = models.DateTimeField(blank=True, null=True)
     activo = models.BooleanField(default=True)
     categorias = models.ManyToManyField(Categoria)

@@ -29,7 +29,7 @@
                 <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>
             </div>
              <hr>
-            <form action="" method="POST">
+            <form action="{% url 'anuncio:eliminar_anuncio' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="id_anuncio" value="{{ anuncio.id }}">
                 <a class="btn btn-primary" href="{% url 'anuncio:editar_anuncio' anuncio.id %}">Editar</a>

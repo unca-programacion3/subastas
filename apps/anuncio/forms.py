@@ -39,6 +39,7 @@ class AnuncioModificaForm(forms.ModelForm):
         widgets = {
             'imagen': forms.ClearableFileInput(),
             'fecha_inicio': DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+
         }
 
     def __init__(self, *args, **kwargs):

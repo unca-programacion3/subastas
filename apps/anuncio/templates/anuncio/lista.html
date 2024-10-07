@@ -5,12 +5,18 @@
         <h1>Listado de Anuncios de Subastas</h1>
         <p>Aquí encontrará los mejores artículos en subasta.</p>
     </header>
+    {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'success' %}  <div class="message">{{ message }}</div>{% endif %}
+          {% if message.tags == 'error' %}  <div class="errorlist">{{ message }}</div>{% endif %}
+      {% endfor %}
+    {% endif %}
     <section id="articulos" class="mt-4">
         <div class="row row-cols-1 row-cols-md-3 mb-3">
             {% for anuncio in anuncios %}
-                <div class="col">
+                <div class="col mb-3">
                     <div class="card text-center h-100">
-                        <img src="{{ anuncio.imagen.url }}" class="card-img-top">
+                        <img src="{{ anuncio.imagen.url }}" class="card-img-top" height="250" width="300">
                         <div class="card-body">
                             <h2 class="card-title">{{ anuncio.titulo }}</h2>
                             <p class="card-text">

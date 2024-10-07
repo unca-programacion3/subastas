@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% block titulo %}Aplicacion Web de Subastas{% endblock %}
+{% block contenido_principal %}
+    <header id="home">
+        <h1>Aplicacion Web de Subastas</h1>
+        <p>Aquí encontrará los mejores artículos en subasta.</p>
+    </header>
+    <section id="articulos" class="mt-4 mb-5">
+        <p>Para consultar los Anuncios de Subastas ingrese al siguiente link: <a href="{% url 'anuncio:lista_anuncios' %}">Anuncios</a></p>
+    </section>
+{% endblock %}
