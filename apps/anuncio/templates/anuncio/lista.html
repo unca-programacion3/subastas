@@ -28,7 +28,7 @@
                                 {% endfor %}
                             </p>
                             <p class="card-text">{{ anuncio.precio_inicial}}</p>
-                            <p class="card-text">Fecha de Inicio: {{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT" }}</p>
+                            <p class="card-text">Fecha de Inicio: {{ anuncio.fecha_inicio|date:"d-m-Y h:i" }}</p>
                             <a href="{% url 'anuncio:detalle_anuncio' anuncio.id %}" class="btn btn-primary">
                                 Ver detalles
                             </a>

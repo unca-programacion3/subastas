@@ -23,8 +23,8 @@
                         El Artículo no se asignó a ninunga Categoria.
                     {% endfor %}
                 </p>
-                <p class="card-text"><strong>Fecha de inicio: </strong>{{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT" }}</p>
-                <p class="card-text"><strong>Fecha de cierre: </strong>{{ anuncio.fecha_inicio|date:"SHORT_DATE_FORMAT"|default_if_none:"" }}</p>
+                <p class="card-text"><strong>Fecha de inicio: </strong>{{ anuncio.fecha_inicio|date:"d-m-Y h:i" }}</p>
+                <p class="card-text"><strong>Fecha de cierre: </strong>{{ anuncio.fecha_fin|date:"d-m-Y h:i"|default_if_none:"" }}</p>
                 <p class="card-text"><strong>Precio Inicial: </strong>{{ anuncio.precio_inicial }}</p>
                 <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>
             </div>

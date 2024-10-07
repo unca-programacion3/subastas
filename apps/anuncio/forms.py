@@ -13,7 +13,7 @@ class AnuncioForm(forms.ModelForm):
 
         widgets = {
             'imagen': forms.ClearableFileInput(),
-            'fecha_inicio': DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'fecha_inicio': DateInput(format='%Y-%m-%d %H:%M', attrs={'type': 'datetime-local'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -38,7 +38,7 @@ class AnuncioModificaForm(forms.ModelForm):
 
         widgets = {
             'imagen': forms.ClearableFileInput(),
-            'fecha_inicio': DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'fecha_inicio': DateInput(format='%Y-%m-%d %H:%m', attrs={'type': 'datetime-local'}),
 
         }
 
