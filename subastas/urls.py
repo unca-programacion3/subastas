@@ -24,5 +24,6 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('anuncio/', include('apps.anuncio.urls', namespace='anuncio')),
+    path('', include('apps.usuario.urls', namespace='usuario')),
     path('', TemplateView.as_view(template_name='base/home.html'), name='home')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
