@@ -1,6 +1,7 @@
 from http.client import HTTPResponse
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -21,6 +22,8 @@ def detalle_anuncio(request, pk):
     return render(request, 'anuncio/detalle.html', {'anuncio': anuncio})
 
 
+@login_required(login_url='usuario:login')
+@permission_required('anuncio.add_anuncio', raise_exception=True)
 def crear_anuncio(request):
     nuevo_anuncio = None
     if request.method == 'POST':
@@ -44,6 +47,7 @@ def crear_anuncio(request):
     return render(request, 'anuncio/anuncio_form.html', {'form': anuncio_form})
 
 
+@permission_required('anuncio.change_anuncio', raise_exception=True)
 def editar_anuncio(request, pk):
     anuncio = get_object_or_404(Anuncio, pk=pk)
     if request.method == 'POST':
@@ -58,6 +62,7 @@ def editar_anuncio(request, pk):
     return render(request, 'anuncio/anuncio_form.html', {'form': form_anuncio})
 
 
+@permission_required('anuncio.delete_anuncio', raise_exception=True)
 def eliminar_anuncio(request):
     if request.method == 'POST':
         if 'id_anuncio' in request.POST:
