@@ -31,9 +31,7 @@ def crear_anuncio(request):
         if anuncio_form.is_valid():
             # Se guardan los datos que provienen del formulario en la B.D.
             nuevo_anuncio = anuncio_form.save(commit=False)
-            # crear usuario ficticio
-            usuario,_ = Usuario.objects.get_or_create(username='cga', password='321', documento_identidad='63636363')
-            nuevo_anuncio.publicado_por = usuario
+            nuevo_anuncio.publicado_por = request.user
             nuevo_anuncio.save()
             # Esto guarda específicamente las relaciones ManyToMany (como el campo categorias)
             # después de que el objeto principal ha sido guardado.
