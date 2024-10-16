@@ -50,6 +50,12 @@ def crear_anuncio(request):
 @permission_required('anuncio.change_anuncio', raise_exception=True)
 def editar_anuncio(request, pk):
     anuncio = get_object_or_404(Anuncio, pk=pk)
+
+    # verificar que el usuario que desea modificar el anuncio, sea quien creó la publicación
+    if not anuncio.publicado_por == request.user:
+        messages.error(request, 'Ud no puede modificar el Anuncio')
+        return redirect(reverse('anuncio:detalle_anuncio', args=[anuncio.id]))
+
     if request.method == 'POST':
         form_anuncio = AnuncioModificaForm(request.POST, request.FILES, instance=anuncio)
         if form_anuncio.is_valid():
@@ -67,6 +73,12 @@ def eliminar_anuncio(request):
     if request.method == 'POST':
         if 'id_anuncio' in request.POST:
             anuncio = get_object_or_404(Anuncio, pk=request.POST['id_anuncio'])
+
+            # verificar que el usuario que desea modificar el anuncio, sea quien creó la publicación
+            if not anuncio.publicado_por == request.user:
+                messages.error(request, 'Ud no puede eliminar el Anuncio')
+                return redirect(reverse('anuncio:detalle_anuncio', args=[anuncio.id]))
+
             titulo_anuncio = anuncio.titulo
             anuncio.delete()
             messages.success(request, 'Se ha eliminado exitosamente el Anuncio {}'.format(titulo_anuncio))

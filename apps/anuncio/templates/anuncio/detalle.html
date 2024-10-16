@@ -8,6 +8,7 @@
     {% if messages %}
       {% for message in messages %}
           {% if message.tags == 'success' %}  <div class="message">{{ message }}</div>{% endif %}
+          {% if message.tags == 'error' %}  <div class="errorlist">{{ message }}</div>{% endif %}
       {% endfor %}
     {% endif %}
     <section class="d-flex justify-content-center">
@@ -29,16 +30,19 @@
                 <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>
             </div>
              <hr>
-            <form action="{% url 'anuncio:eliminar_anuncio' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="id_anuncio" value="{{ anuncio.id }}">
-                {% if perms.anuncio.change_anuncio %}
-                    <a class="btn btn-primary" href="{% url 'anuncio:editar_anuncio' anuncio.id %}">Editar</a>
-                {% endif %}
-                {% if perms.anuncio.delete_anuncio %}
-                    <input type="submit" value="Eliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar el Anuncio?');">
-                {% endif %}
+
+            {% if anuncio.publicado_por == request.user %}
+                <form action="{% url 'anuncio:eliminar_anuncio' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_anuncio" value="{{ anuncio.id }}">
+                    {% if perms.anuncio.change_anuncio %}
+                        <a class="btn btn-primary" href="{% url 'anuncio:editar_anuncio' anuncio.id %}">Editar</a>
+                    {% endif %}
+                    {% if perms.anuncio.delete_anuncio %}
+                        <input type="submit" value="Eliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar el Anuncio?');">
+                    {% endif %}
                 </form>
+             {% endif %}
         </div>
 
     </section>
