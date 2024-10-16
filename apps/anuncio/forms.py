@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms import DateInput
 from django.utils import timezone
 
-from apps.anuncio.models import Anuncio
+from apps.anuncio.models import Anuncio, OfertaAnuncio
 
 
 class AnuncioForm(forms.ModelForm):
@@ -49,3 +49,28 @@ class AnuncioModificaForm(forms.ModelForm):
                 field.widget.attrs['class'] = 'form-control'
             else:
                 field.widget.attrs['class'] = 'form-check-input'
+
+
+# class OfertaAnuncioForm(forms.ModelForm):
+#     class Meta:
+#         model = OfertaAnuncio
+#         fields = ['anuncio', 'precio_oferta']
+#
+#     def __init__(self, *args, **kwargs):
+#         self.usuario = kwargs.pop('usuario', None)
+#         super().__init__(*args, **kwargs)
+#
+#     def clean_precio_oferta(self):
+#         precio_oferta = self.cleaned_data['precio_oferta']
+#         anuncio = self.cleaned_data['anuncio']
+#
+#         # Validar si el precio de la oferta es mayor que el precio inicial del anuncio
+#         if precio_oferta <= anuncio.precio_inicial:
+#             raise forms.ValidationError("La oferta debe ser mayor al precio inicial del artículo.")
+#
+#         # Validar si la oferta es mayor a las ofertas anteriores
+#         ultima_oferta = anuncio.ofertas.order_by('-precio_oferta').first()
+#         if ultima_oferta and precio_oferta <= ultima_oferta.precio_oferta:
+#             raise forms.ValidationError("La oferta debe ser mayor que la oferta más alta actual.")
+#
+#         return precio_oferta

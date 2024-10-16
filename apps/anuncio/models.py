@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -45,3 +46,21 @@ class OfertaAnuncio(models.Model):
     precio_oferta = models.DecimalField(decimal_places=2, max_digits=10)
     es_ganador = models.BooleanField(default=False)
     usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE, related_name='ofertas')
+
+    def clean(self):
+        # Validar si el precio de la oferta es mayor que el precio inicial del anuncio
+        if self.precio_oferta <= self.anuncio.precio_inicial:
+            raise ValidationError("La oferta debe ser mayor al precio inicial del artículo.")
+
+        # Validar si la oferta es mayor a las ofertas anteriores
+        if self.id:
+            ultima_oferta = self.anuncio.ofertas.exclude(id=self.id).order_by('-precio_oferta').first()
+        else:
+            ultima_oferta = self.anuncio.ofertas.order_by('-precio_oferta').first()
+
+        if ultima_oferta and self.precio_oferta <= ultima_oferta.precio_oferta:
+            raise ValidationError(f"La oferta debe ser mayor que la oferta más alta actual.(${ultima_oferta.precio_oferta})")
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Llamamos a la validación antes de guardar
+        super().save(*args, **kwargs)

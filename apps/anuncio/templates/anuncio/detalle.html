@@ -42,7 +42,16 @@
                         <input type="submit" value="Eliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar el Anuncio?');">
                     {% endif %}
                 </form>
-             {% endif %}
+            {% else %}
+                <form action="{% url 'anuncio:ofertar_anuncio' %}" method="POST" class="p-2">
+                    {% csrf_token %}
+                        <h4>Seccion para Ofertar el Anuncio</h4>
+                        <input type="hidden" name="id_anuncio" value="{{ anuncio.id }}">
+                        <label>Ingrese el monto a Ofertar</label>
+                        <input type="number" name="monto_oferta" value=0 min="1" class="form-control"> <br>
+                        <input type="submit" value="Ofertar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea enviar la Oferta del Anuncio?');">
+                </form>
+            {% endif %}
         </div>
 
     </section>

@@ -3,12 +3,13 @@ from http.client import HTTPResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from apps.anuncio.forms import AnuncioForm, AnuncioModificaForm
-from apps.anuncio.models import Anuncio
+from apps.anuncio.models import Anuncio, OfertaAnuncio
 from apps.usuario.models import Usuario
 
 
@@ -82,4 +83,26 @@ def eliminar_anuncio(request):
             messages.success(request, 'Se ha eliminado exitosamente el Anuncio {}'.format(titulo_anuncio))
         else:
             messages.error(request, 'Debe indicar qué Anuncio se desea eliminar')
+    return redirect(reverse('anuncio:lista_anuncios'))
+
+
+def ofertar_anuncio(request):
+    if request.method == 'POST':
+        anuncio = get_object_or_404(Anuncio, pk=request.POST.get('id_anuncio', 0))
+        monto_oferta = float(request.POST.get('monto_oferta', 0))
+
+        # buscar registro de anuncio para el usuario
+        oferta = OfertaAnuncio.objects.filter(anuncio=anuncio, usuario=request.user).first()
+        if oferta:
+            oferta.precio_oferta = monto_oferta
+        else:
+            oferta = OfertaAnuncio(anuncio=anuncio, precio_oferta=monto_oferta, usuario=request.user)
+        try:
+            oferta.save()
+            messages.success(request, 'Oferta realizada exitosamente')
+            return redirect(reverse('anuncio:detalle_anuncio', args=[anuncio.id]))
+        except ValidationError as e:
+            messages.error(request, e)
+            return redirect(reverse('anuncio:detalle_anuncio', args=[anuncio.id]))
+
     return redirect(reverse('anuncio:lista_anuncios'))
