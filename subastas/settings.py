@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,6 +76,7 @@ AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+"""
 os.environ['PGSERVICEFILE'] = os.path.join(os.environ['APPDATA'], 'postgresql', '.pg_service.conf')
 
 DATABASES = {
@@ -84,6 +86,17 @@ DATABASES = {
             "service": "servicio_postgres",
             "passfile": os.path.join(os.environ['APPDATA'], 'postgresql', '.pgpass.conf')
         }
+    }
+}
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': config('POSTGRES_ENGINE'),
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRES_HOST'),
+        'PORT': config('POSTGRES_PORT')
     }
 }
 
